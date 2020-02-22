@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "880505027387",
+    "firebase_url": "https://arrived-remembered.firebaseio.com",
+    "project_id": "arrived-remembered",
+    "storage_bucket": "arrived-remembered.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880505027387:android:420bcad52fc9430857d51e",
+        "android_client_info": {
+          "package_name": "br.com.rubensrodrigues.arrived_remembered"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880505027387-uu1sq3j8oo8qr7u3hg13eikj3ua2c4rv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.rubensrodrigues.arrived_remembered",
+            "certificate_hash": "560ab03bfc694577b807da24fec4329c9c4eea1b"
+          }
+        },
+        {
+          "client_id": "880505027387-s6si3ikapgk21o31d9p87a2f8c23qgld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO49rxOyer13RISM4sBbyFLAXyMgjCXkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "880505027387-s6si3ikapgk21o31d9p87a2f8c23qgld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
