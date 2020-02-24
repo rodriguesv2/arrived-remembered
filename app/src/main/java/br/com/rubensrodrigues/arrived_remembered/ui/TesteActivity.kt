@@ -9,8 +9,13 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
+import android.widget.Toast
+import androidx.core.location.LocationManagerCompat
 import br.com.rubensrodrigues.arrived_remembered.R
 import br.com.rubensrodrigues.arrived_remembered.util.PermissionHelper
 import com.google.android.libraries.places.api.Places
@@ -66,28 +71,30 @@ class TesteActivity : AppCompatActivity() {
         startActivityForResult(intentAutoComplete, REQUEST_AUTOCOMPLETE_PLACE)
     }
 
+    private var counter: Int = 0
 
     @SuppressLint("MissingPermission")
     private fun showCoordination() {
         val systemServiceLocation = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        location = systemService.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        systemServiceLocation.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000L, 10f, object: LocationListener{
+//            location = systemService.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        systemServiceLocation.requestSingleUpdate(LocationManager.GPS_PROVIDER, object: LocationListener{
             override fun onLocationChanged(p0: Location?) {
                 if(::locationTyped.isInitialized){
                     textview.text = locationTyped.distanceTo(p0).toString()
                 } else {
-                    toast("Escolha primeiro o endereço de destino")
+                    counter += 1
+                    toast("Escolha primeiro o endereço de destino. Contador - $counter")
+                    Log.i("REQUEST_LOCATION", "$counter")
                 }
-            }
 
+            }
             override fun onStatusChanged(p0: String?, p1: Int, p2: Bundle?) {}
             override fun onProviderEnabled(p0: String?) {}
-            override fun onProviderDisabled(p0: String?) {}
-        })
-//        val location = Location(LocationManager.GPS_PROVIDER)
-//        textview.text = "${location.latitude}, ${location.longitude}"
+            override fun onProviderDisabled(p0: String?) {
+                toast("Location disabled")
+            }
+        }, null)
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
