@@ -76,7 +76,6 @@ class TesteActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun showCoordination() {
         val systemServiceLocation = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//            location = systemService.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         systemServiceLocation.requestSingleUpdate(LocationManager.GPS_PROVIDER, object: LocationListener{
             override fun onLocationChanged(p0: Location?) {
                 if(::locationTyped.isInitialized){
@@ -102,11 +101,6 @@ class TesteActivity : AppCompatActivity() {
         if (requestCode == REQUEST_AUTOCOMPLETE_PLACE && resultCode == Activity.RESULT_OK){
             data?.let {
                 val place = Autocomplete.getPlaceFromIntent(it)
-                var str = ""
-                str += "ID: ${place.id}\n\n"
-                str += "NAME: ${place.name}\n\n"
-                str += "ADDRESS: ${place.address}\n\n"
-                str += "CORD: ${place.latLng}"
 
                 locationTyped = Location(LocationManager.GPS_PROVIDER).apply {
                     latitude = place.latLng?.latitude!!
