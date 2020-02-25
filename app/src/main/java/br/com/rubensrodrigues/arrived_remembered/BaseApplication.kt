@@ -4,6 +4,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import br.com.rubensrodrigues.arrived_remembered.util.Constants.NOTIFICATION_CHANNEL
 
 class BaseApplication: Application() {
 
@@ -16,7 +17,7 @@ class BaseApplication: Application() {
     private fun createNofificationChannel(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val serviceChannel = NotificationChannel(
-                "locationServiceChannel",
+                NOTIFICATION_CHANNEL,
                 "Localização Ativa",
                 NotificationManager.IMPORTANCE_DEFAULT
             )

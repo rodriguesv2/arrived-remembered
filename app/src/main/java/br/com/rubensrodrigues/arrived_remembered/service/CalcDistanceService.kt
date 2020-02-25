@@ -8,20 +8,23 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import br.com.rubensrodrigues.arrived_remembered.R
 import br.com.rubensrodrigues.arrived_remembered.ui.TesteActivity
-import org.jetbrains.anko.toast
+import br.com.rubensrodrigues.arrived_remembered.util.Constants
+import br.com.rubensrodrigues.arrived_remembered.util.extensions.showNotification
+import kotlin.random.Random
 
 class CalcDistanceService : Service() {
 
+    private var count = 0
 
     private val timer by lazy {
-        object: CountDownTimer(2000, 20){
+        object: CountDownTimer(5000, 20){
             override fun onFinish() {
-                toast("time end")
+                showNotification<TesteActivity>("Localização", "Essa é uma notificação\n - $count", Random.nextInt(0, 1000))
+                count += 1
                 timerStart()
             }
 
             override fun onTick(p0: Long) {}
-
         }
     }
 
@@ -43,7 +46,7 @@ class CalcDistanceService : Service() {
         val notificationIntent = Intent(this, TesteActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
 
-        val notification = NotificationCompat.Builder(this, "locationServiceChannel")
+        val notification = NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL)
             .setContentTitle("Serviço de localização ativo")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentIntent(pendingIntent)

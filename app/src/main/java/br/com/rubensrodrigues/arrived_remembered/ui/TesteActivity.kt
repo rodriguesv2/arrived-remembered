@@ -9,15 +9,13 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
-import android.widget.Toast
-import androidx.core.location.LocationManagerCompat
+import androidx.appcompat.app.AppCompatActivity
 import br.com.rubensrodrigues.arrived_remembered.R
+import br.com.rubensrodrigues.arrived_remembered.util.Constants
 import br.com.rubensrodrigues.arrived_remembered.util.PermissionHelper
+import br.com.rubensrodrigues.arrived_remembered.util.extensions.cancelNotification
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -36,6 +34,7 @@ class TesteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teste)
 
+        cancelNotification(intent.getIntExtra(Constants.NOTIFICATION_ID, -2))
         setListeners()
     }
 
