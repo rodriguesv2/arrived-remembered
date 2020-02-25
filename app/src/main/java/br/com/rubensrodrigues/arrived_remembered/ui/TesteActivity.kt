@@ -11,11 +11,10 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import br.com.rubensrodrigues.arrived_remembered.R
-import br.com.rubensrodrigues.arrived_remembered.util.Constants
-import br.com.rubensrodrigues.arrived_remembered.util.PermissionHelper
-import br.com.rubensrodrigues.arrived_remembered.util.extensions.cancelNotification
+import br.com.rubensrodrigues.arrived_remembered.ui.base.BaseActivity
+import br.com.rubensrodrigues.arrived_remembered.util.helper.LocationHelper
+import br.com.rubensrodrigues.arrived_remembered.util.helper.PermissionHelper
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
@@ -23,7 +22,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.activity_teste.*
 import org.jetbrains.anko.toast
 
-class TesteActivity : AppCompatActivity() {
+class TesteActivity : BaseActivity(R.layout.activity_teste) {
 
     private val REQUEST_PERMISSION_LOCATION = 1002
     private val REQUEST_AUTOCOMPLETE_PLACE = 1001
@@ -32,9 +31,7 @@ class TesteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_teste)
 
-        cancelNotification(intent.getIntExtra(Constants.NOTIFICATION_ID, -2))
         setListeners()
     }
 
@@ -49,9 +46,21 @@ class TesteActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 REQUEST_PERMISSION_LOCATION
             ){
-                showCoordination()
+                calculateCoordination()
             }
         }
+    }
+
+    private fun calculateCoordination() {
+        LocationHelper.currentCoordination(
+            context = this,
+            onLocationChanged = {
+
+            },
+            onProviderDisabled = {
+
+            }
+        )
     }
 
     override fun onDestroy() {
@@ -70,8 +79,6 @@ class TesteActivity : AppCompatActivity() {
         startActivityForResult(intentAutoComplete, REQUEST_AUTOCOMPLETE_PLACE)
     }
 
-    private var counter: Int = 0
-
     @SuppressLint("MissingPermission")
     private fun showCoordination() {
         val systemServiceLocation = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -80,9 +87,7 @@ class TesteActivity : AppCompatActivity() {
                 if(::locationTyped.isInitialized){
                     textview.text = locationTyped.distanceTo(p0).toString()
                 } else {
-                    counter += 1
-                    toast("Escolha primeiro o endereço de destino. Contador - $counter")
-                    Log.i("REQUEST_LOCATION", "$counter")
+                    toast("Escolha primeiro o endereço de destino. Contador")
                 }
 
             }
@@ -106,6 +111,8 @@ class TesteActivity : AppCompatActivity() {
                     longitude = place.latLng?.longitude!!
                 }
 
+                Log.i("LATLOG", "LAT: ${place.latLng?.latitude!!} - LNG: ${place.latLng?.longitude!!}")
+
                 edittext.setText(place.name)
             }
         }
@@ -121,7 +128,7 @@ class TesteActivity : AppCompatActivity() {
         when(requestCode){
             REQUEST_PERMISSION_LOCATION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    showCoordination()
+                    calculateCoordination()
                 } else {
                     toast("Permissão à localização negada")
                     finish()

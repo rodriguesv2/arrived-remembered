@@ -1,4 +1,4 @@
-package br.com.rubensrodrigues.arrived_remembered.util
+package br.com.rubensrodrigues.arrived_remembered.util.helper
 
 import android.app.Activity
 import android.content.Context
@@ -18,7 +18,11 @@ object PermissionHelper {
     }
 
     fun checkForPermission(context: Context, permission: String, requestCode: Int, permissionAlreadyGranted: (() -> Unit)? = null){
-        if (shouldAskPermission(context, permission)){
+        if (shouldAskPermission(
+                context,
+                permission
+            )
+        ){
             ActivityCompat.requestPermissions(context as Activity, listOf(permission).toTypedArray(), requestCode)
         } else {
             permissionAlreadyGranted?.invoke()
